@@ -1,3 +1,5 @@
+
+
 const BtnAdd = document.getElementById('btn-add');
 const Input = document.getElementById('input');
 const Container = document.getElementById('container');
@@ -19,7 +21,7 @@ function addTask(task) {
     Card.innerHTML = `
           <div>
             <input type="checkbox" class="check">
-            <span>${task}</span>
+            <span class="fs-4">${task}</span>
           </div>
           <div>
             <button class="btn btn-info">Editar</button>
@@ -38,8 +40,10 @@ function addTask(task) {
     check.addEventListener('click', () => {
       if (check.checked) {
         Card.style.backgroundColor = '#99ff91';
+        span.style.textDecoration = 'line-through';
       } else {
-        Card.style.backgroundColor = '#ff8585';
+        Card.style.backgroundColor = 'rgb(228, 228, 228)';
+        span.style.textDecoration = 'none';
       }
     });
 
