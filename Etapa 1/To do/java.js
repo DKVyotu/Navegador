@@ -1,115 +1,139 @@
-
+/* Traer la informacion siempre */
+let TaskLocal = JSON.parse(localStorage.getItem('TaskLocal') || '[]');
 
 const BtnAdd = document.getElementById('btn-add');
 const Input = document.getElementById('input');
 const Container = document.getElementById('container');
-const NoTask = document.getElementById('ntareas');
-let nTask = false;
 
-/* Ver si no hay tareas */
-function checkTask() {
-  if (nTask === false) {
-    NoTask.innerHTML = `<h2>No hay tareas</h2>`;
-  } else {
-    NoTask.style.display = 'none';
-  }
+/* Primer render del Local Storage */
+TaskLocal.forEach (task => {
+  addTask(task.ID, task.tarea, task.estado);
+  console.log(task.ID, task.tarea, task.estado)
+});
+
+function saveLocal(task) {
+
+  /* Creamos ID aletorio */
+  let generateId = () => {
+    return Math.random().toString(36).substring(2, 12);
+  };
+
+  localStorage.setItem('TaskLocal',JSON.stringify([...TaskLocal, {ID: generateId(), tarea: task, estado: false}]));
+
+  /* Cambiamos el Tasklocal por el nuevo enviado */
+  TaskLocal = JSON.parse(localStorage.getItem('TaskLocal') || '[]');
+
 }
 
 /* Funcion agregar tarea */
-function addTask(task) {
+function addTask(ID, task, estado) {
+
+  /* cambiamos el true a checked  */
+  let Checket = (estado ? 'checked' : 'nolisto');
+  
   const Card = document.createElement('li');
-    Card.innerHTML = `
+  Card.innerHTML =(`
           <div>
-            <input type="checkbox" class="check">
+            <input type="checkbox" class="check" ${Checket} >
             <span class="fs-4">${task}</span>
           </div>
           <div>
             <button class="btn btn-info">Editar</button>
             <button class="btn btn-danger">Eliminar</button>
-          </div>`;  
-    
-    const BtnDelete = Card.querySelector('.btn-danger');
+        </div>`);  
+   
+  const check = Card.querySelector('.check');
+  const BtnEdit = Card.querySelector('.btn-info');
+  const BtnDelete = Card.querySelector('.btn-danger');
+  const span = Card.querySelector('span');
+  const inputE = document.createElement('input');
 
-    const BtnEdit = Card.querySelector('.btn-info');
-    const span = Card.querySelector('span');
-    const input = document.createElement('input');
+  function editTask() {
+    /* Cambio de Span a Input */
+    inputE.value = span.textContent;
+    span.replaceWith(inputE);
 
-    const check = Card.querySelector('.check');
-
-    /* Poner verde o Rojo*/
-    check.addEventListener('click', () => {
-      if (check.checked) {
-        Card.style.backgroundColor = '#99ff91';
-        span.style.textDecoration = 'line-through';
-      } else {
-        Card.style.backgroundColor = 'rgb(228, 228, 228)';
-        span.style.textDecoration = 'none';
-      }
-    });
-
-
-    /* Eliminar Card */
-    BtnDelete.addEventListener('click', () => {
-      console.log(Container.appendChild(Card));
-      Card.remove();
-      
-    });
-
-    /* Editar Card*/
-    BtnEdit.addEventListener('click', () => {
-      if (BtnEdit.textContent === 'Editar') {
-        editTask();
-        function editTask() {
-          /* Cambio de Span a Input */
-          input.style.display = 'initial';
-          span.style.display = 'none';
-          input.value = span.textContent;
-          span.replaceWith(input);
-    
-          /* Modificar Editar a Guardar */
-          BtnEdit.textContent = 'Guardar';
-          BtnEdit.classList.remove('btn-info');
-          BtnEdit.classList.add('btn-success');   
-        }
-
-      } else {
-        saveTask();
-        function saveTask() {
-          /* Guardamos el cambio */
-          span.textContent = input.value;
-          span.style.display = 'initial';
-          input.style.display = 'none';
-          input.replaceWith(span);
-    
-          /* Modificar Guardar a Editar */
-          BtnEdit.textContent = 'Editar';
-          BtnEdit.classList.remove('btn-success');
-          BtnEdit.classList.add('btn-info');
-        }
-
-      }
-    })
-
-    /* Agregamos al contenedor */
-    Container.appendChild(Card);
-
-    /* Cambiamos el valor de control */
-    nTask = true;
-    checkTask();
-} 
-
-/* Evento de agregar tarea */
-BtnAdd.addEventListener('click', () => {
-  /* Validamos el contenido */
-  if (Input.value === '') {
-    alert('Ingresa una tarea');
-    return;
+    /* Modificar Editar a Guardar */
+    BtnEdit.textContent = 'Guardar';
+    BtnEdit.classList.remove('btn-info');
+    BtnEdit.classList.add('btn-success');   
   }
-  /* Agregamos al contenedor */
-  addTask(Input.value);
+
+  function saveTask() {
+    /* Guardamos el cambio */
+    span.textContent = inputE.value;
+    inputE.replaceWith(span);
+
+    /* Modificar Guardar a Editar */
+    BtnEdit.textContent = 'Editar';
+    BtnEdit.classList.remove('btn-success');
+    BtnEdit.classList.add('btn-info');
+    
+    /* Editamos el LocalStorage */
+    let editTask = TaskLocal.find(task => task.ID === ID);
+    /* Cambiamos el parametro editado */
+    editTask.tarea = span.textContent;
+    /* Cambiamos el Tasklocal por el nuevo enviado */
+    localStorage.setItem('TaskLocal',JSON.stringify(TaskLocal));
+
+  }
+   
+  function deleteTask() {
+    Card.remove();
+  }
+   
+  function taskDone() {
+    Card.style.backgroundColor = '#99ff91';
+    span.style.textDecoration = 'line-through';
+
+    let editTask = TaskLocal.find(task => task.ID === ID);
+    editTask.estado = true;
+    localStorage.setItem('TaskLocal',JSON.stringify(TaskLocal));
+
+  }
+
+  function taskUndone() {
+    Card.style.backgroundColor = 'rgb(228, 228, 228)';
+    span.style.textDecoration = 'none';
+
+    let editTask = TaskLocal.find(task => task.ID === ID);
+    editTask.estado = false;
+    localStorage.setItem('TaskLocal',JSON.stringify(TaskLocal));
+
+  }
+
+  /* Editar Card*/
+  BtnEdit.addEventListener('click', () => {
+    (BtnEdit.textContent === 'Editar') ? (editTask()) : (saveTask());
+  })
+   
+  /* Eliminar Card */
+  BtnDelete.addEventListener('click', () => {
+    deleteTask();      
+  });
+
+  /* Poner verde o Rojo al hacer click*/
+  check.addEventListener('click', () => {
+    (check.checked) ?( taskDone()):(taskUndone());
+  });
+
+  /* Pone en verde si estaba chekiado */
+  (estado) ? (taskDone()):('');
+
+
+  /* agregamos al contenedor */
+  Container.appendChild(Card);
+
   /* Reset de input */
   Input.value = '';
-});
+} 
 
-/* Ejecutamos el control */
-checkTask();
+/* Click en agregar tarea */
+BtnAdd.addEventListener('click', () => {
+
+  if (Input.value === '') {
+    alert('Ingresa una tarea');
+  } else {
+    saveLocal(Input.value);
+  }
+});
