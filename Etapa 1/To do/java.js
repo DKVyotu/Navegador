@@ -80,6 +80,10 @@ function addTask(ID, task, estado) {
    
   function deleteTask() {
     Card.remove();
+    
+    TaskLocal = TaskLocal.filter(task => task.ID !== ID);
+    localStorage.setItem('TaskLocal',JSON.stringify(TaskLocal));
+
   }
    
   function taskDone() {
