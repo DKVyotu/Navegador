@@ -61,6 +61,20 @@ a {
   text-decoration: none !important;
   color: rgb(219, 219, 219) !important;
 }
+input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}
+.inputEdit {
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: #949494 1px solid;
+  font-size: 24px;
+  width: 500px;
+  padding-left: 8px;
+}
 
 .n1 {
   display: flex;
