@@ -167,6 +167,7 @@ BtnAdd.addEventListener('click', (event) => {
   } else {
     saveLocal(Input.value);
   }
+  count();
 });
 
 render();
