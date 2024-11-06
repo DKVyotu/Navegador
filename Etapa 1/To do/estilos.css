@@ -42,6 +42,7 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0px !important;
 }
 
 li {
@@ -85,7 +86,7 @@ input[type="checkbox"] {
     border-radius: 5px;
     border: #949494 1px solid;
     padding: 0.3rem;
-    width: 500px;
+    width: 300px;
   }
   button {
     margin-left: 0.5rem;
