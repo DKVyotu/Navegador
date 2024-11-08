@@ -38,7 +38,6 @@ footer {
 
 ul {
   list-style: none;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,7 +72,7 @@ input[type="checkbox"] {
   border-radius: 5px;
   border: #949494 1px solid;
   font-size: 24px;
-  width: 500px;
+  width: 300px;
   padding-left: 8px;
 }
 
