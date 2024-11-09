@@ -1,4 +1,4 @@
-let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
+let busquedas = JSON.parse(localStorage.getItem('historialLocal')) || [];
 
 const contenedor = document.getElementById('contenedor');
 const boton = document.getElementById('boton');
@@ -7,8 +7,6 @@ const buscador = document.getElementById('buscador');
 const ultimabusqueda = document.getElementById('ultimabusqueda');
 const historial = document.getElementById('historial');
 const eliminarHistorial = document.getElementById('eliminarHistorial');
-
-
 
 /* FETCH */
 /* 
@@ -56,30 +54,51 @@ function mostrarTragos (buscados) {
   }
 }
 
-function guardarHistorial (busqueda) {
-  busquedas.push(busqueda);
-  localStorage.setItem('busquedas', JSON.stringify(busquedas));
+function guardarHistorial (input) {
+
+  let ID = () => {
+    return Math.random().toString(36).substring(2, 12);
+  };
+  
+  let all = {ID: ID(), busqueda: input};
+
+  busquedas.push(all);
+
+  localStorage.setItem('historialLocal', JSON.stringify(busquedas));
+
   mostrarHistorial();
 }
 function mostrarHistorial () { 
   if (busquedas.length > 0) {
     // Genera una cadena de texto con los elementos separados por comas
-    let historialTexto = busquedas.map(e => `<strong>${e}</strong>`).join(' - ');
+    let historialTexto = busquedas.map(e => `<strong id= "${e.ID}" class="hs">${e.busqueda}</strong>`).join(' - ');
 
     // Inserta la cadena generada en el contenedor `historial`
     historial.innerHTML = historialTexto;
     ultimabusqueda.innerHTML = `Utimas busquedas: `;
     
+    botonHistorial(busquedas);
   } else {
     historial.innerHTML = '';
     ultimabusqueda.innerHTML = 'No hay busquedas recientes';
   }
   checkButton();
 }
+function botonHistorial (data) {
+  data.forEach(e => { 
+    const elemento = document.getElementById(e.ID);
+    elemento.addEventListener('click', () => {
+      console.log('busqueda: ' + e.busqueda + ' ID: ' + e.ID);
+      obtenerTragos(e.busqueda); 
+      buscador.style.display = 'block';
+      buscador.innerText = `Mostrando resultados del historial ➡️ ${e.busqueda}`;
+    });
+  });
+}
 
 function limpiarHistorial () {
   busquedas = [];
-  localStorage.setItem('busquedas', JSON.stringify(busquedas));
+  localStorage.setItem('historialLocal', JSON.stringify(busquedas));
   mostrarHistorial();
 }
 function checkButton () {
@@ -90,14 +109,15 @@ function checkButton () {
   }
 }
 
-function mostarInfo (info) {
+function mostarInfoDeBusqueda (info) {
+  buscador.style.display = 'block';
   buscador.innerHTML = `Resultados de: ${info}`;
 }
 
 boton.addEventListener('click', (e) => {
   e.preventDefault();
   if (input.value != '') {
-    mostarInfo(input.value);
+    mostarInfoDeBusqueda(input.value);
     guardarHistorial(input.value);
     obtenerTragos(input.value);
     input.value = '';

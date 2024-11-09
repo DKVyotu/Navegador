@@ -69,3 +69,16 @@ a {
   flex-wrap: wrap;
   justify-content: center;
 }
+.hs {
+  text-decoration: underline;
+}
+.hs:hover {
+  color: #0f1c83;
+  font-size: 18px;
+  transition: 1s;
+}
+
+.input-group {
+  max-width: 500px;
+  margin: 0 auto;
+}
