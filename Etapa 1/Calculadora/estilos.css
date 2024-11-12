@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #dfdfdf;
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: auto 1fr auto;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  font-size: 10px;
+  text-align: center;
+}
+
+a {
+  text-decoration: none !important;
+  color: rgb(219, 219, 219) !important;
+}
+
+.boton1 {
+  background-color: #93c47d;
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+
+  color: white;
+  cursor: pointer;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  min-height: 80px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.boton1:hover {
+  background-color: #78ae5f;
+}
+.pantalla {
+  background-color: #d4d4d4;
+  box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.75);
+  
+  color: black;
+  font-family: "Doto", sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  
+  display: flex;
+  align-items: center; 
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+#calculadora {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+
+  width: 400px;
+  gap: 10px;
+  padding: 10px;
+  
+  border-radius: 10px;
+  border: 10px solid #525252;
+  }
+  
+  .n1 { grid-area: 5 / 1 / 6 / 2; }
+  .n2 { grid-area: 5 / 2 / 6 / 3; }
+  .n3 { grid-area: 5 / 3 / 6 / 4; }
+  .n4 { grid-area: 4 / 1 / 5 / 2; }
+  .n5 { grid-area: 4 / 2 / 5 / 3; }
+  .n6 { grid-area: 4 / 3 / 5 / 4; }
+  .n7 { grid-area: 3 / 1 / 4 / 2; }
+  .n8 { grid-area: 3 / 2 / 4 / 3; }
+  .n9 { grid-area: 3 / 3 / 4 / 4; }
+  .n0 { grid-area: 6 / 1 / 7 / 3; }
+  .igual { grid-area: 5 / 4 / 7 / 5; }
+  .pantalla { grid-area: 1 / 1 / 2 / 5; }
+  .reset { grid-area: 2 / 1 / 3 / 2; }
+  .del { grid-area: 2 / 2 / 3 / 3; }
+  .division { grid-area: 2 / 3 / 3 / 4; }
+  .multiplicacion { grid-area: 2 / 4 / 3 / 5; }
+  .menos { grid-area: 3 / 4 / 4 / 5; }
+  .mas { grid-area: 4 / 4 / 5 / 5; }
+  .punto { grid-area: 6 / 3 / 7 / 4; }
